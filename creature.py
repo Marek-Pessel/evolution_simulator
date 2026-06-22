@@ -11,13 +11,25 @@ act1.connect_with(inner1)
 
 
 class Creature():
-    def __init__(self):
-        self.inner_neurons  = [inner1]
+    def __init__(self, Gen:int|list=4, N_inner=4):
+        self.inner_neurons  = [IN() for i in range(N_inner)]
         self.perc_neurons   = [perc1]
         self.act_neurouns   = [act1]
         self.location       = []    # [y,x]
         self.ID             = str(np.random.randint(100,999))
+        self.Gen            = Gen   # int or list[0x]
 
+        self.init_brain()
+
+    def init_brain(self):
+        if isinstance(self.Gen, int):
+            #TODO: random gen genrator
+            pass
+        
+        #TODO: use gen code
+
+
+        
     def __str__(self):
         return self.ID
 
