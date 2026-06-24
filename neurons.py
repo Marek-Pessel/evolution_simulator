@@ -13,6 +13,7 @@ class NEURON():
     def calc_activation(self):
         input = np.array([pre.output for pre in self.connect_in])
         activation = self.weight @ input
+        # test comment
 
         return activation
 
