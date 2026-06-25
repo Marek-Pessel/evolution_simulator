@@ -26,6 +26,26 @@ class Creature():
             self.Gene = self.random_genes()
         
         #TODO: use gene code
+        for gene in self.Gene:
+            # hex to bin
+            binary = bin(int(gene, 16))
+            # cut off 0b prefix
+            binary = binary[2:] # 24-digit binary
+            # slice binary to meaningfull peaces
+            post = int(binary[:4],2)        # neuron type
+            post_spec = int(binary[4:9],2)  # which of those?
+            pre = int(binary[9:13],2)       # neuron type
+            pre_spec = int(binary[13:18],2) # which of those
+            sign = int(binary[18],2)        # +/-
+            weight = int(binary[19:],2)     # abs of the connection weight
+
+            ### connect neurons following genetic information
+            # choose presynaptic neuron
+            pre_neuron = self.choose_neuron(pre, pre_spec)
+            # choose postsynaptic neuron
+            post_neuron = self.choose_neuron(post, post_spec)
+            # calc and add weight to connection
+            pass
 
     def random_genes(self) -> list[str]:
         """
@@ -45,6 +65,17 @@ class Creature():
         
         return _Gene
 
+    def choose_neuron(self, type_, spec):
+        if type_ < 5:
+            choose_from = self.perc_neurons
+        elif type_ < 10:
+            choose_from = self.inner_neurons
+        else:
+            choose_from = self.act_neurouns
+
+        idx = len(choose_from)/32 * spec
+
+        return choose_from[idx]
         
     def __str__(self):
         return self.ID
