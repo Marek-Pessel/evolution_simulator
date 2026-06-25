@@ -36,7 +36,7 @@ class Creature():
             pre = int(binary[9:13],2)       # neuron type
             pre_spec = int(binary[13:18],2) # which of those
             sign = int(binary[18],2)        # +/- aka 0/1
-            weight = int(binary[19:],2)     # abs of the connection weight
+            weight = int(binary[19:],2) / 8    # abs of the connection weight [0,4]
 
             ### connect neurons following genetic information
             # choose presynaptic neuron
