@@ -18,14 +18,13 @@ class Creature():
         self.location       = []    # [y,x]
         self.ID             = str(np.random.randint(100,999))
         self.Gene           = Gene   # int or list[0x]
-
         self.init_brain()
+        self.color          = self.color_from_gene()
 
     def init_brain(self):
         if isinstance(self.Gene, int):
             self.Gene = self.random_genes()
         
-        #TODO: use gene code
         for gene in self.Gene:
             # hex to bin
             binary = bin(int(gene, 16))
@@ -51,6 +50,14 @@ class Creature():
             # connect neurons
             post_neuron.connect_with(pre_neuron, weight)
             pass
+
+    def color_from_gene(self):
+        
+        summed = sum([int(gene,16) for gene in self.Gene])
+        normed = int(summed / len(self.Gene))
+
+        return hex(normed)
+
 
     def random_genes(self) -> list[str]:
         """
