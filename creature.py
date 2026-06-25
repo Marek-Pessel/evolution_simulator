@@ -36,7 +36,7 @@ class Creature():
             post_spec = int(binary[4:9],2)  # which of those?
             pre = int(binary[9:13],2)       # neuron type
             pre_spec = int(binary[13:18],2) # which of those
-            sign = int(binary[18],2)        # +/-
+            sign = int(binary[18],2)        # +/- aka 0/1
             weight = int(binary[19:],2)     # abs of the connection weight
 
             ### connect neurons following genetic information
@@ -44,7 +44,12 @@ class Creature():
             pre_neuron = self.choose_neuron(pre, pre_spec)
             # choose postsynaptic neuron
             post_neuron = self.choose_neuron(post, post_spec)
-            # calc and add weight to connection
+            # calc weight for connection
+            if sign:
+                weight *= -1
+            
+            # connect neurons
+            post_neuron.connect_with(pre_neuron, weight)
             pass
 
     def random_genes(self) -> list[str]:

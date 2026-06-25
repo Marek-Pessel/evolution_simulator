@@ -21,9 +21,9 @@ class NEURON():
         act = self.calc_activation()
         self.output = np.tanh(act)
 
-    def connect_with(self, neuron):
+    def connect_with(self, neuron, w):
         self.connect_in.append(neuron)
-        self.weight = np.append(self.weight, 1)
+        self.weight = np.append(self.weight, w)
 
 
 #######################################
