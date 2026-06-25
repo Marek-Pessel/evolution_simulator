@@ -11,39 +11,39 @@ act1.connect_with(inner1)
 
 
 class Creature():
-    def __init__(self, Gen:int|list=4, N_inner=4):
+    def __init__(self, Gene:int|list=4, N_inner=4):
         self.inner_neurons  = [IN() for i in range(N_inner)]
         self.perc_neurons   = [perc1]
         self.act_neurouns   = [act1]
         self.location       = []    # [y,x]
         self.ID             = str(np.random.randint(100,999))
-        self.Gen            = Gen   # int or list[0x]
+        self.Gene           = Gene   # int or list[0x]
 
         self.init_brain()
 
     def init_brain(self):
-        if isinstance(self.Gen, int):
-            self.Gen = self.random_gens()
+        if isinstance(self.Gene, int):
+            self.Gene = self.random_genes()
         
-        #TODO: use gen code
+        #TODO: use gene code
 
-    def random_gens(self) -> list[str]:
+    def random_genes(self) -> list[str]:
         """
-        Just call in times self.Gen is an integer (Gencode has to be generated).
+        Just call in times self.Gene is an integer (Genecode has to be generated).
         Returns a list with n-time random hex strings between 0x100000 and 0xffffff.
         """
 
-        min_gen_code = int('100000', 16)    # lowest 6-digit Hex as low bound
-        max_gen_code = int('ffffff', 16)    # highest 6-digit Hex as high bound
+        min_gene_code = int('100000', 16)    # lowest 6-digit Hex as low bound
+        max_gene_code = int('ffffff', 16)    # highest 6-digit Hex as high bound
 
-        # generate random gens
-        _Gen = []
-        for i in range(self.Gen):
-            _gen = np.random.randint(min_gen_code, max_gen_code) # int
-            _gen = hex(_gen)    # hexadecimal string
-            _Gen.append(_gen)
+        # generate random genes
+        _Gene = []
+        for i in range(self.Gene):
+            _gene = np.random.randint(min_gene_code, max_gene_code) # int
+            _gene = hex(_gene)    # hexadecimal string
+            _Gene.append(_gene)
         
-        return _Gen
+        return _Gene
 
         
     def __str__(self):
