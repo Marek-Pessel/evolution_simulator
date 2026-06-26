@@ -2,19 +2,21 @@ import numpy as np
 from neurons import InnerNeuron as IN, PerceptionNeuron as PN, ActionNeuron as AN
 
 
-inner1 = IN()
-perc1 = PN()
-act1 = AN()
-
-inner1.connect_with(perc1)
-act1.connect_with(inner1)
+perc1 = PN(name="perc1")
+perc2 = PN(name="perc2")
+perc3 = PN(name="perc3")
+perc4 = PN(name="perc4")
+act1 = AN(name="act1")
+act2 = AN(name="act2")
+act3 = AN(name="act3")
+act4 = AN(name="act4")
 
 
 class Creature():
-    def __init__(self, Gene:int|list=4, N_inner=4):
-        self.inner_neurons  = [IN() for i in range(N_inner)]
-        self.perc_neurons   = [perc1]
-        self.act_neurouns   = [act1]
+    def __init__(self, Gene=4, N_inner=4):
+        self.inner_neurons  = [IN(f"inner{i+1}") for i in range(N_inner)]
+        self.perc_neurons   = [perc1, perc2, perc3, perc4]
+        self.act_neurouns   = [act1, act2, act3, act4]
         self.location       = []    # [y,x]
         self.ID             = str(np.random.randint(100,999))
         self.Gene           = Gene   # int or list[0x]
@@ -58,7 +60,6 @@ class Creature():
 
         return hex(normed)
 
-
     def random_genes(self) -> list[str]:
         """
         Just call in times self.Gene is an integer (Genecode has to be generated).
@@ -85,12 +86,20 @@ class Creature():
         else:
             choose_from = self.act_neurouns
 
-        idx = len(choose_from)/32 * spec
+        idx = int(len(choose_from)/32 * spec)
 
         return choose_from[idx]
         
     def __str__(self):
-        return self.ID
+        ret = f"\n########  Creature-{self.ID}   ########\n"
+        ret += f"at location {self.location}\nBrain is:\n"
+        neur = self.perc_neurons + self.inner_neurons + self.act_neurouns
+        for n in neur:
+            for i, each in enumerate(n.connect_in):
+                ret += f"{each} --{n.weight[i]}--> {n}\n"
+
+        ret += "\n\n"
+        return ret
 
     def live_step(self, env):
         print(f"---- Creature {self} acts ----")
