@@ -13,7 +13,7 @@ env = World(size=SIZE)
 # init creatures and place in world
 CREATURES = []
 for i in range(INDIVIDUALS):
-    c = Creature()
+    c = Creature(N_inner=2)
 
     while True:
         y = np.random.randint(1,SIZE[0]-2)
@@ -25,8 +25,11 @@ for i in range(INDIVIDUALS):
         else:
             print(f"Cell ({y}|{x}) is blocked")
     CREATURES.append(c)
-    print(f"Creature {c} placed at {y}|{x}")
+    print(c)
 
+exit()
+
+############  testing  #######
 
 time = 0
 print(f"\n##### World at step {time} #####")

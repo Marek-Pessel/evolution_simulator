@@ -15,8 +15,8 @@ act4 = AN(name="act4")
 class Creature():
     def __init__(self, Gene=4, N_inner=4):
         self.inner_neurons  = [IN(f"inner{i+1}") for i in range(N_inner)]
-        self.perc_neurons   = [perc1, perc2, perc3, perc4]
-        self.act_neurouns   = [act1, act2, act3, act4]
+        self.perc_neurons   = [PN(f"perc{i+1}") for i in range(4)]
+        self.act_neurouns   = [AN(f"act{i+1}") for i in range(4)]
         self.location       = []    # [y,x]
         self.ID             = str(np.random.randint(100,999))
         self.Gene           = Gene   # int or list[0x]
@@ -25,9 +25,12 @@ class Creature():
 
     def init_brain(self):
         if isinstance(self.Gene, int):
+            print("## Gene is INTEGER")
             self.Gene = self.random_genes()
+            print(f"-- Gene was generated:\n {self.Gene}")
         
         for gene in self.Gene:
+            print(f"-- Use gene: {gene}")
             # hex to bin
             binary = bin(int(gene, 16))
             # cut off 0b prefix
@@ -51,7 +54,7 @@ class Creature():
             
             # connect neurons
             post_neuron.connect_with(pre_neuron, weight)
-            pass
+            print(f"-- connected {pre_neuron} --[{weight}]--> {post_neuron}")
 
     def color_from_gene(self):
         
@@ -71,6 +74,7 @@ class Creature():
 
         # generate random genes
         _Gene = []
+        print(f"-- create {self.Gene} random genes")
         for i in range(self.Gene):
             _gene = np.random.randint(min_gene_code, max_gene_code) # int
             _gene = hex(_gene)    # hexadecimal string
@@ -96,9 +100,8 @@ class Creature():
         neur = self.perc_neurons + self.inner_neurons + self.act_neurouns
         for n in neur:
             for i, each in enumerate(n.connect_in):
-                ret += f"{each} --{n.weight[i]}--> {n}\n"
+                ret += f"{each} --[{n.weight[i]}]--> {n}\n"
 
-        ret += "\n\n"
         return ret
 
     def live_step(self, env):
