@@ -3,12 +3,13 @@ import numpy as np
 #######################
 class NEURON():
 
-    def __init__(self):
+    def __init__(self, name):
         self.connect_in = []
         self.connect_out = []
         #self.input = np.array([])
         self.output = 0
         self.weight = np.array([])
+        self.name = name
 
     def calc_activation(self):
         input = np.array([pre.output for pre in self.connect_in])
@@ -25,17 +26,20 @@ class NEURON():
         self.connect_in.append(neuron)
         self.weight = np.append(self.weight, w)
 
+    def __str__(self):
+        return self.name
+
 
 #######################################
 class InnerNeuron(NEURON):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, name):
+        super().__init__(name)
 
 
 ########################################
 class PerceptionNeuron(NEURON):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, name):
+        super().__init__(name)
         self.input = 0
 
     def calc_activation(self):
@@ -47,8 +51,8 @@ class PerceptionNeuron(NEURON):
 
 ########################################
 class ActionNeuron(NEURON):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, name):
+        super().__init__(name)
 
 
     def ex_action(self,env):
