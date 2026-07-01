@@ -41,81 +41,173 @@ class PerceptionNeuron(NEURON):
     def __init__(self, name):
         super().__init__(name)
         self.input = 0
+    
+    def calc_output(self, env, creat):
+        # is anyone inhibitate this neuron?
+        act = self.calc_activation()
+        if act >= 0:
+            self.output = self.percept(env, creat) + act
+        else:
+            self.output = 0
 
-    def calc_activation(self):
-        act = self.input % 2 * 10
-        if act:
-            print("Odd detected")
-        return act
+    def percept(self, env, creat):
+        pass
 
+def dst_north(self, env, creat)->float:
+    print("-- dst_north was called")
+
+    dst = 0
+    while True:
+        # check cells northern from the creature
+        if env.world_grid[creat.location[0]-(dst+1)][creat.location[1]].blocked:
+            break
+        else:
+            dst += 1
+    
+    if dst == 0:
+        return 1.5
+    else:
+        return 1/dst
+
+def dst_south(self, env, creat)->float:
+    print("-- dst_south was called")
+    dst = 0
+    while True:
+        # check cells northern from the creature
+        if env.world_grid[creat.location[0]+(dst+1)][creat.location[1]].blocked:
+            break
+        else:
+            dst += 1
+    
+    if dst == 0:
+        return 1.5
+    else:
+        return 1/dst
+
+def dst_east(self, env, creat)->float:
+    print("-- dst_east was called")
+    dst = 0
+    while True:
+        # check cells northern from the creature
+        if env.world_grid[creat.location[0]][creat.location[1]+(dst+1)].blocked:
+            break
+        else:
+            dst += 1
+    
+    if dst == 0:
+        return 1.5
+    else:
+        return 1/dst
+
+def dst_west(self, env, creat)->float:
+    print("-- dst_west was called")
+    dst = 0
+    while True:
+        # check cells northern from the creature
+        if env.world_grid[creat.location[0]][creat.location[1]-(dst+1)].blocked:
+            break
+        else:
+            dst += 1
+    
+    if dst == 0:
+        return 1.5
+    else:
+        return 1/dst
+
+PN_DICT = {
+    "dst_n":dst_north,
+    "dst_s":dst_south,
+    "dst_e":dst_east,
+    "dst_w":dst_west
+}
 
 #######  ACTION NEURONS AND FUNCTIONS  #################################
 class ActionNeuron(NEURON):
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name, threshold=0.4):
+        super().__init__(name, threshold)
 
     def ex_action(self,env, creat):
         pass
 
 def mv_north(self, env, creat):
+    print("-- mv_north was called")
     motion = [-1,0] # [y,x]
     # is neuron firering?
-    actived = self.calc_output() >= self.th
+    self.calc_output()
+    activated = self.output >= self.th
     # is goal loction occupied?
     occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
-    if actived and not occupied:
+    if activated and not occupied:
         # creature moves
         creat.location[0] += motion[0]
         creat.location[1] += motion[1]
+        print(f"creature-{creat.ID} moved to {creat.location}")
         # block new location
-        env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]] = True
+        env.world_grid[creat.location[0]][creat.location[1]].blocked = True
+        print(f"Cell [{creat.location[0]},{creat.location[1]}] blocked")
         # unblock old location
-        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]] = False
+        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].blocked = False
+        print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}]")
         
 def mv_south(self, env, creat):
+    print("-- mv_south was called")
     motion = [1,0] # [y,x]
     # is neuron firering?
-    actived = self.calc_output() >= self.th
+    self.calc_output()
+    activated = self.output >= self.th
     # is goal loction occupied?
     occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
-    if actived and not occupied:
+    if activated and not occupied:
         # creature moves
         creat.location[0] += motion[0]
         creat.location[1] += motion[1]
+        print(f"creature-{creat.ID} moved to {creat.location}")
         # block new location
-        env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]] = True
+        env.world_grid[creat.location[0]][creat.location[1]].blocked = True
+        print(f"Cell [{creat.location[0]},{creat.location[1]}] blocked")
         # unblock old location
-        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]] = False
+        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].blocked = False
+        print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}]")
 
 def mv_east(self, env, creat):
+    print("-- mv_east was called")
     motion = [0,1] # [y,x]
     # is neuron firering?
-    actived = self.calc_output() >= self.th
+    self.calc_output()
+    activated = self.output >= self.th
     # is goal loction occupied?
     occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
-    if actived and not occupied:
+    if activated and not occupied:
         # creature moves
         creat.location[0] += motion[0]
         creat.location[1] += motion[1]
+        print(f"creature-{creat.ID} moved to {creat.location}")
         # block new location
-        env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]] = True
+        env.world_grid[creat.location[0]][creat.location[1]].blocked = True
+        print(f"Cell [{creat.location[0]},{creat.location[1]}] blocked")
         # unblock old location
-        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]] = False
+        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].blocked = False
+        print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}]")
 
 def mv_west(self, env, creat):
+    print("-- mv_west was called")
     motion = [0,-1] # [y,x]
     # is neuron firering?
-    actived = self.calc_output() >= self.th
+    self.calc_output()
+    activated = self.output >= self.th
     # is goal loction occupied?
     occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
-    if actived and not occupied:
+    if activated and not occupied:
         # creature moves
         creat.location[0] += motion[0]
         creat.location[1] += motion[1]
+        print(f"creature-{creat.ID} moved to {creat.location}")
         # block new location
-        env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]] = True
+        env.world_grid[creat.location[0]][creat.location[1]].blocked = True
+        print(f"Cell [{creat.location[0]},{creat.location[1]}] is blocked")
         # unblock old location
-        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]] = False
+        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].blocked = False
+        print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}] is free")
 
 
 AN_DICT = {
@@ -124,11 +216,18 @@ AN_DICT = {
     "mv_e":mv_east,
     "mv_w":mv_west
 }
+
 def create_neurons()->list[NEURON]:
     AN_list = []
     for key in list(AN_DICT.keys()):
-        an_ = ActionNeuron(key)
+        an_ = ActionNeuron(key, threshold=0.3)
         an_.ex_action = MethodType(AN_DICT.get(key), an_)
         AN_list.append(an_)
+    
+    PN_list = []
+    for key in list(PN_DICT.keys()):
+        pn_ = PerceptionNeuron(key)
+        pn_.percept = MethodType(PN_DICT.get(key), pn_)
+        PN_list.append(pn_)
 
-    return AN_list
+    return AN_list, PN_list

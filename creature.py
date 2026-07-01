@@ -3,21 +3,12 @@ from neurons import InnerNeuron as IN, PerceptionNeuron as PN, ActionNeuron as A
 from neurons import create_neurons
 
 
-perc1 = PN(name="perc1")
-perc2 = PN(name="perc2")
-perc3 = PN(name="perc3")
-perc4 = PN(name="perc4")
-act1 = AN(name="act1")
-act2 = AN(name="act2")
-act3 = AN(name="act3")
-act4 = AN(name="act4")
 
 
 class Creature():
     def __init__(self, Gene=4, N_inner=4):
         self.inner_neurons  = [IN(f"inner{i+1}") for i in range(N_inner)]
-        self.perc_neurons   = [PN(f"perc{i+1}") for i in range(4)]
-        self.act_neurouns   = create_neurons()
+        self.act_neurouns, self.perc_neurons   = create_neurons()
         self.location       = []    # [y,x]
         self.ID             = str(np.random.randint(100,999))
         self.Gene           = Gene   # int or list[0x]
@@ -26,12 +17,9 @@ class Creature():
 
     def init_brain(self):
         if isinstance(self.Gene, int):
-            print("## Gene is INTEGER")
             self.Gene = self.random_genes()
-            print(f"-- Gene was generated:\n {self.Gene}")
         
         for gene in self.Gene:
-            print(f"-- Use gene: {gene}")
             # hex to bin
             binary = bin(int(gene, 16))
             # cut off 0b prefix
@@ -55,7 +43,6 @@ class Creature():
             
             # connect neurons
             post_neuron.connect_with(pre_neuron, weight)
-            print(f"-- connected {pre_neuron} --[{weight}]--> {post_neuron}")
 
     def color_from_gene(self):
         
@@ -106,33 +93,17 @@ class Creature():
         return ret
 
     def live_step(self, env):
-        print(f"---- Creature {self} acts ----")
-        self.perc_neurons[0].input = np.random.randint(-10,10)
+        #print(f"---- Creature {self} acts ----")
 
         for perc in self.perc_neurons:
-            perc.calc_output()
+            perc.calc_output(env, self)
 
         for inner in self.inner_neurons:
             inner.calc_output()
 
         for act in self.act_neurouns:
-            motion = act.ex_action(env)
-            if motion[0] == 0 and motion[1] == 0:
-                print(f"No motion commands")
-                continue
-            new_y = self.location[0] + motion[0]
-            new_x = self.location[1] + motion[1]
+            act.ex_action(env, self)
 
-            if not env.world_grid[new_y][new_x].blocked:
-                # free up old cell
-                env.world_grid[self.location[0]][self.location[1]].blocked = False
-                # block new cell
-                env.world_grid[new_y][new_x].blocked = True
-                # update location
-                self.location = [new_y,new_x]
-                print(f"moved to new cell {self.location}")
-            else:
-                print(f"cell [{new_y},{new_x}] was blocked")
             
 
 

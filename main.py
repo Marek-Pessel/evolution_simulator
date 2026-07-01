@@ -27,7 +27,7 @@ for i in range(INDIVIDUALS):
     CREATURES.append(c)
     print(c)
 
-exit()
+#exit()
 
 ############  testing  #######
 
