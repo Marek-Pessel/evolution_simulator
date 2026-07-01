@@ -1,5 +1,6 @@
 import numpy as np
 from neurons import InnerNeuron as IN, PerceptionNeuron as PN, ActionNeuron as AN
+from neurons import create_neurons
 
 
 perc1 = PN(name="perc1")
@@ -16,7 +17,7 @@ class Creature():
     def __init__(self, Gene=4, N_inner=4):
         self.inner_neurons  = [IN(f"inner{i+1}") for i in range(N_inner)]
         self.perc_neurons   = [PN(f"perc{i+1}") for i in range(4)]
-        self.act_neurouns   = [AN(f"act{i+1}") for i in range(4)]
+        self.act_neurouns   = create_neurons()
         self.location       = []    # [y,x]
         self.ID             = str(np.random.randint(100,999))
         self.Gene           = Gene   # int or list[0x]
