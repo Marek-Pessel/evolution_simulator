@@ -1,21 +1,21 @@
 import numpy as np
+from types import MethodType
 
 #######################
 class NEURON():
 
-    def __init__(self, name):
+    def __init__(self, name, threshold=0.5):
         self.connect_in = []
         self.connect_out = []
         #self.input = np.array([])
         self.output = 0
         self.weight = np.array([])
         self.name = name
+        self.th = threshold
 
-    def calc_activation(self):
+    def calc_activation(self)->float:
         input = np.array([pre.output for pre in self.connect_in])
         activation = self.weight @ input
-        # test comment
-
         return activation
 
     def calc_output(self):
@@ -36,7 +36,7 @@ class InnerNeuron(NEURON):
         super().__init__(name)
 
 
-########################################
+#######  PERCEPTION NEURONS AND FUNCTIONS  #################################
 class PerceptionNeuron(NEURON):
     def __init__(self, name):
         super().__init__(name)
@@ -49,20 +49,86 @@ class PerceptionNeuron(NEURON):
         return act
 
 
-########################################
+#######  ACTION NEURONS AND FUNCTIONS  #################################
 class ActionNeuron(NEURON):
     def __init__(self, name):
         super().__init__(name)
 
+    def ex_action(self,env, creat):
+        pass
 
-    def ex_action(self,env):
-        self.calc_output()
-        y=0
-        x=0
-        if self.output > 0.5:
-            y = np.random.randint(-1,1)
-            x = np.random.randint(-1,1)
+def mv_north(self, env, creat):
+    motion = [-1,0] # [y,x]
+    # is neuron firering?
+    actived = self.calc_output() >= self.th
+    # is goal loction occupied?
+    occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
+    if actived and not occupied:
+        # creature moves
+        creat.location[0] += motion[0]
+        creat.location[1] += motion[1]
+        # block new location
+        env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]] = True
+        # unblock old location
+        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]] = False
+        
+def mv_south(self, env, creat):
+    motion = [1,0] # [y,x]
+    # is neuron firering?
+    actived = self.calc_output() >= self.th
+    # is goal loction occupied?
+    occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
+    if actived and not occupied:
+        # creature moves
+        creat.location[0] += motion[0]
+        creat.location[1] += motion[1]
+        # block new location
+        env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]] = True
+        # unblock old location
+        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]] = False
 
-        return [y,x]
+def mv_east(self, env, creat):
+    motion = [0,1] # [y,x]
+    # is neuron firering?
+    actived = self.calc_output() >= self.th
+    # is goal loction occupied?
+    occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
+    if actived and not occupied:
+        # creature moves
+        creat.location[0] += motion[0]
+        creat.location[1] += motion[1]
+        # block new location
+        env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]] = True
+        # unblock old location
+        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]] = False
 
-    
+def mv_west(self, env, creat):
+    motion = [0,-1] # [y,x]
+    # is neuron firering?
+    actived = self.calc_output() >= self.th
+    # is goal loction occupied?
+    occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
+    if actived and not occupied:
+        # creature moves
+        creat.location[0] += motion[0]
+        creat.location[1] += motion[1]
+        # block new location
+        env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]] = True
+        # unblock old location
+        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]] = False
+
+
+AN_DICT = {
+    "mv_n":mv_north,
+    "mv_s":mv_south,
+    "mv_e":mv_east,
+    "mv_w":mv_west
+}
+def create_neurons()->list[NEURON]:
+    AN_list = []
+    for key in list(AN_DICT.keys()):
+        an_ = ActionNeuron(key)
+        an_.ex_action = MethodType(AN_DICT.get(key), an_)
+        AN_list.append(an_)
+
+    return AN_list
