@@ -1,10 +1,11 @@
 from creature import Creature
 from world import World
 import numpy as np
+from plot_utils import fix_sim_step as fix
 
 ### Define Settings ###
-SIZE = [10,10]  # World dimensions [y,x]
-INDIVIDUALS = 2 # how many creatures to create
+SIZE = [128,128]  # World dimensions [y,x]
+INDIVIDUALS = 10 # how many creatures to create
 TIME = 10       # Simulation time for one generation  
 
 # init world map
@@ -43,3 +44,4 @@ while time < TIME:
     time += 1
     print(f"\n##### World at step {time} #####")
     print(env)
+    fix(size=SIZE, creatures=CREATURES)
