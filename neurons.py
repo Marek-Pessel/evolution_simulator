@@ -54,7 +54,7 @@ class PerceptionNeuron(NEURON):
         pass
 
 def dst_north(self, env, creat)->float:
-    print("-- dst_north was called")
+    #print("-- dst_north was called")
 
     dst = 0
     while True:
@@ -70,7 +70,7 @@ def dst_north(self, env, creat)->float:
         return 1/dst
 
 def dst_south(self, env, creat)->float:
-    print("-- dst_south was called")
+    #print("-- dst_south was called")
     dst = 0
     while True:
         # check cells northern from the creature
@@ -85,7 +85,7 @@ def dst_south(self, env, creat)->float:
         return 1/dst
 
 def dst_east(self, env, creat)->float:
-    print("-- dst_east was called")
+    #print("-- dst_east was called")
     dst = 0
     while True:
         # check cells northern from the creature
@@ -100,7 +100,7 @@ def dst_east(self, env, creat)->float:
         return 1/dst
 
 def dst_west(self, env, creat)->float:
-    print("-- dst_west was called")
+    #print("-- dst_west was called")
     dst = 0
     while True:
         # check cells northern from the creature
@@ -130,7 +130,7 @@ class ActionNeuron(NEURON):
         pass
 
 def mv_north(self, env, creat):
-    print("-- mv_north was called")
+    #print("-- mv_north was called")
     motion = [-1,0] # [y,x]
     # is neuron firering?
     self.calc_output()
@@ -144,13 +144,13 @@ def mv_north(self, env, creat):
         print(f"creature-{creat.ID} moved to {creat.location}")
         # block new location
         env.world_grid[creat.location[0]][creat.location[1]].blocked = True
-        print(f"Cell [{creat.location[0]},{creat.location[1]}] blocked")
+        #print(f"Cell [{creat.location[0]},{creat.location[1]}] blocked")
         # unblock old location
         env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].blocked = False
-        print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}]")
+        #print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}]")
         
 def mv_south(self, env, creat):
-    print("-- mv_south was called")
+    #print("-- mv_south was called")
     motion = [1,0] # [y,x]
     # is neuron firering?
     self.calc_output()
@@ -164,13 +164,13 @@ def mv_south(self, env, creat):
         print(f"creature-{creat.ID} moved to {creat.location}")
         # block new location
         env.world_grid[creat.location[0]][creat.location[1]].blocked = True
-        print(f"Cell [{creat.location[0]},{creat.location[1]}] blocked")
+        #print(f"Cell [{creat.location[0]},{creat.location[1]}] blocked")
         # unblock old location
         env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].blocked = False
-        print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}]")
+        #print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}]")
 
 def mv_east(self, env, creat):
-    print("-- mv_east was called")
+    #print("-- mv_east was called")
     motion = [0,1] # [y,x]
     # is neuron firering?
     self.calc_output()
@@ -184,13 +184,13 @@ def mv_east(self, env, creat):
         print(f"creature-{creat.ID} moved to {creat.location}")
         # block new location
         env.world_grid[creat.location[0]][creat.location[1]].blocked = True
-        print(f"Cell [{creat.location[0]},{creat.location[1]}] blocked")
+        #print(f"Cell [{creat.location[0]},{creat.location[1]}] blocked")
         # unblock old location
         env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].blocked = False
-        print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}]")
+        #print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}]")
 
 def mv_west(self, env, creat):
-    print("-- mv_west was called")
+    #print("-- mv_west was called")
     motion = [0,-1] # [y,x]
     # is neuron firering?
     self.calc_output()
@@ -204,10 +204,10 @@ def mv_west(self, env, creat):
         print(f"creature-{creat.ID} moved to {creat.location}")
         # block new location
         env.world_grid[creat.location[0]][creat.location[1]].blocked = True
-        print(f"Cell [{creat.location[0]},{creat.location[1]}] is blocked")
+        #print(f"Cell [{creat.location[0]},{creat.location[1]}] is blocked")
         # unblock old location
         env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].blocked = False
-        print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}] is free")
+        #print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}] is free")
 
 
 AN_DICT = {
