@@ -1,3 +1,7 @@
 *test*.py
 __pycache__/
 *.pyc
+test_plots/
+*.png
+*.csv
+*.mp4
