@@ -56,69 +56,133 @@ class PerceptionNeuron(NEURON):
 def dst_north(self, env, creat)->float:
     #print("-- dst_north was called")
 
-    dst = 0
-    while True:
+    for i in range(creat.perc_max):
         # check cells northern from the creature
-        if env.world_grid[creat.location[0]-(dst+1)][creat.location[1]].blocked:
-            break
-        else:
-            dst += 1
+        if env.world_grid[creat.location[0]-(i+1)][creat.location[1]].blocked:
+            if i == 0:
+                return 1.5
+            else:
+                return 1/i
     
-    if dst == 0:
-        return 1.5
-    else:
-        return 1/dst
-
+    # no end of map percepted
+    return 0.0
+    
 def dst_south(self, env, creat)->float:
     #print("-- dst_south was called")
-    dst = 0
-    while True:
+    for i in range(creat.perc_max):
         # check cells northern from the creature
-        if env.world_grid[creat.location[0]+(dst+1)][creat.location[1]].blocked:
-            break
-        else:
-            dst += 1
+        if env.world_grid[creat.location[0]+(i+1)][creat.location[1]].blocked:
+            if i == 0:
+                return 1.5
+            else:
+                return 1/i
     
-    if dst == 0:
-        return 1.5
-    else:
-        return 1/dst
-
-def dst_east(self, env, creat)->float:
-    #print("-- dst_east was called")
-    dst = 0
-    while True:
-        # check cells northern from the creature
-        if env.world_grid[creat.location[0]][creat.location[1]+(dst+1)].blocked:
-            break
-        else:
-            dst += 1
-    
-    if dst == 0:
-        return 1.5
-    else:
-        return 1/dst
+    # no end of map percepted
+    return 0.0
 
 def dst_west(self, env, creat)->float:
-    #print("-- dst_west was called")
-    dst = 0
-    while True:
+    #print("-- dst_east was called")
+    for i in range(creat.perc_max):
         # check cells northern from the creature
-        if env.world_grid[creat.location[0]][creat.location[1]-(dst+1)].blocked:
-            break
-        else:
-            dst += 1
+        if env.world_grid[creat.location[0]][creat.location[1]-(i+1)].blocked:
+            if i == 0:
+                return 1.5
+            else:
+                return 1/i
     
-    if dst == 0:
-        return 1.5
-    else:
-        return 1/dst
+    # no end of map percepted
+    return 0.0
+
+def dst_east(self, env, creat)->float:
+    #print("-- dst_west was called")
+    for i in range(creat.perc_max):
+        # check cells northern from the creature
+        if env.world_grid[creat.location[0]][creat.location[1]+(i+1)].blocked:
+            if i == 0:
+                return 1.5
+            else:
+                return 1/i
+    
+    # no end of map percepted
+    return 0.0
+
+def crt_north(self, env, creat)->float:
+    #print("-- dst_north was called")
+
+    for i in range(creat.perc_max):
+        # check cells northern from the creature for another creature
+        if env.world_grid[creat.location[0]-(i+1)][creat.location[1]].isCreature:
+            if i == 0:
+                return 1.5
+            else:
+                return 1/i
+        elif env.world_grid[creat.location[0]-(i+1)][creat.location[1]].blocked:
+            # end of map reached without 
+            return 0.0
+    
+    # no creature was noticed
+    return 0.0
+
+def crt_south(self, env, creat)->float:
+    #print("-- dst_north was called")
+
+    for i in range(creat.perc_max):
+        # check cells northern from the creature for another creature
+        if env.world_grid[creat.location[0]+(i+1)][creat.location[1]].isCreature:
+            if i == 0:
+                return 1.5
+            else:
+                return 1/i
+        elif env.world_grid[creat.location[0]+(i+1)][creat.location[1]].blocked:
+            # end of map reached without 
+            return 0.0
+    
+    # no creature was noticed
+    return 0.0
+
+def crt_west(self, env, creat)->float:
+    #print("-- dst_north was called")
+
+    for i in range(creat.perc_max):
+        # check cells northern from the creature for another creature
+        if env.world_grid[creat.location[0]][creat.location[1]-(i+1)].isCreature:
+            if i == 0:
+                return 1.5
+            else:
+                return 1/i
+        elif env.world_grid[creat.location[0]][creat.location[1]-(i+1)].blocked:
+            # end of map reached without 
+            return 0.0
+    
+    # no creature was noticed
+    return 0.0
+
+def crt_east(self, env, creat)->float:
+    #print("-- dst_north was called")
+
+    for i in range(creat.perc_max):
+        # check cells northern from the creature for another creature
+        if env.world_grid[creat.location[0]][creat.location[1]+(i+1)].isCreature:
+            if i == 0:
+                return 1.5
+            else:
+                return 1/i
+        elif env.world_grid[creat.location[0]][creat.location[1]+(i+1)].blocked:
+            # end of map reached without 
+            return 0.0
+    
+    # no creature was noticed
+    return 0.0
 
 PN_DICT = {
     "dst_n":dst_north,
     "dst_s":dst_south,
     "dst_e":dst_east,
-    "dst_w":dst_west
+    "dst_w":dst_west,
+    "crt_n":crt_north,
+    "crt_s":crt_south,
+    "crt_e":crt_east,
+    "crt_w":crt_west
 }
 
 #######  ACTION NEURONS AND FUNCTIONS  #################################

@@ -14,6 +14,7 @@ class Creature():
         self.Gene           = Gene   # int or list[0x]
         self.init_brain()
         self.color          = self.color_from_gene()
+        self.perc_max       = 5 # maximum distance for perception of exogen stimuli
 
     def init_brain(self):
         if isinstance(self.Gene, int):
