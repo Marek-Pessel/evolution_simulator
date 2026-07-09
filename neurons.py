@@ -135,18 +135,19 @@ def mv_north(self, env, creat):
     # is neuron firering?
     self.calc_output()
     activated = self.output >= self.th
-    # is goal loction occupied?
-    occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
-    if activated and not occupied:
+    # is goal loction occupied or end of the map?
+    occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].isCreature
+    blocked = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
+    if activated and not (occupied or blocked):
         # creature moves
         creat.location[0] += motion[0]
         creat.location[1] += motion[1]
         print(f"creature-{creat.ID} moved to {creat.location}")
         # block new location
-        env.world_grid[creat.location[0]][creat.location[1]].blocked = True
+        env.world_grid[creat.location[0]][creat.location[1]].isCreature = True
         #print(f"Cell [{creat.location[0]},{creat.location[1]}] blocked")
         # unblock old location
-        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].blocked = False
+        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].isCreature = False
         #print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}]")
         
 def mv_south(self, env, creat):
@@ -155,18 +156,19 @@ def mv_south(self, env, creat):
     # is neuron firering?
     self.calc_output()
     activated = self.output >= self.th
-    # is goal loction occupied?
-    occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
-    if activated and not occupied:
+    # is goal loction occupied or end of the map?
+    occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].isCreature
+    blocked = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
+    if activated and not (occupied or blocked):
         # creature moves
         creat.location[0] += motion[0]
         creat.location[1] += motion[1]
         print(f"creature-{creat.ID} moved to {creat.location}")
         # block new location
-        env.world_grid[creat.location[0]][creat.location[1]].blocked = True
+        env.world_grid[creat.location[0]][creat.location[1]].isCreature = True
         #print(f"Cell [{creat.location[0]},{creat.location[1]}] blocked")
         # unblock old location
-        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].blocked = False
+        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].isCreature = False
         #print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}]")
 
 def mv_east(self, env, creat):
@@ -175,18 +177,19 @@ def mv_east(self, env, creat):
     # is neuron firering?
     self.calc_output()
     activated = self.output >= self.th
-    # is goal loction occupied?
-    occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
-    if activated and not occupied:
+    # is goal loction occupied or end of the map?
+    occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].isCreature
+    blocked = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
+    if activated and not (occupied or blocked):
         # creature moves
         creat.location[0] += motion[0]
         creat.location[1] += motion[1]
         print(f"creature-{creat.ID} moved to {creat.location}")
         # block new location
-        env.world_grid[creat.location[0]][creat.location[1]].blocked = True
+        env.world_grid[creat.location[0]][creat.location[1]].isCreature = True
         #print(f"Cell [{creat.location[0]},{creat.location[1]}] blocked")
         # unblock old location
-        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].blocked = False
+        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].isCreature = False
         #print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}]")
 
 def mv_west(self, env, creat):
@@ -195,18 +198,19 @@ def mv_west(self, env, creat):
     # is neuron firering?
     self.calc_output()
     activated = self.output >= self.th
-    # is goal loction occupied?
-    occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
-    if activated and not occupied:
+    # is goal loction occupied or end of the map?
+    occupied = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].isCreature
+    blocked = env.world_grid[creat.location[0]+motion[0]][creat.location[1]+motion[1]].blocked
+    if activated and not (occupied or blocked):
         # creature moves
         creat.location[0] += motion[0]
         creat.location[1] += motion[1]
         print(f"creature-{creat.ID} moved to {creat.location}")
         # block new location
-        env.world_grid[creat.location[0]][creat.location[1]].blocked = True
+        env.world_grid[creat.location[0]][creat.location[1]].isCreature = True
         #print(f"Cell [{creat.location[0]},{creat.location[1]}] is blocked")
         # unblock old location
-        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].blocked = False
+        env.world_grid[creat.location[0]-motion[0]][creat.location[1]-motion[1]].isCreature = False
         #print(f"Cell [{creat.location[0]-motion[0]},{creat.location[1]-motion[1]}] is free")
 
 

@@ -21,9 +21,9 @@ for i in range(INDIVIDUALS):
     while True:
         y = np.random.randint(1,SIZE[0]-2)
         x = np.random.randint(1,SIZE[1]-2)
-        if not env.world_grid[y][x].blocked:
+        if not env.world_grid[y][x].isCreature:
             c.location = [y,x]
-            env.world_grid[y][x].blocked = True
+            env.world_grid[y][x].isCreature = True
             break
         else:
             print(f"Cell ({y}|{x}) is blocked")

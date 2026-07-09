@@ -4,6 +4,7 @@ import numpy as np
 class WorldCell():
     def __init__(self):
         self.blocked = False
+        self.isCreature = False
         self.isFood = False
 
 #############
